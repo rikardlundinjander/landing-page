@@ -95,9 +95,36 @@
 }
 
 .inputWrap {
+  position: relative;
   border-bottom: 1px solid var(--color-gray-600);
   padding: var(--space-12) 0;
   transition: border-color var(--duration-fast) ease;
+}
+
+.inputLabel {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-family);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--color-gray-600);
+  pointer-events: none;
+  white-space: nowrap;
+  transition:
+    left var(--duration-fast) ease,
+    right var(--duration-fast) ease,
+    font-size var(--duration-fast) ease,
+    line-height var(--duration-fast) ease;
+}
+
+.inputLabelActive {
+  left: auto;
+  right: 0;
+  font-size: 12px;
+  line-height: 16px;
 }
 
 .inputWrap:hover,
