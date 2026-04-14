@@ -232,9 +232,22 @@
   outline-offset: 2px;
 }
 
-/* Confirmation */
-.confirm {
-  /* same layout as form view */
+/* State container — form stays in flow to keep panel height stable */
+.stateContainer {
+  position: relative;
+}
+
+.stateHidden {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Confirmation overlaid on top of the (invisible) form */
+.confirmOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
 /* === MOBILE — bottom sheet ================================= */

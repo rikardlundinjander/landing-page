@@ -74,10 +74,15 @@ export default function Panel({ isOpen, onClose }: PanelProps) {
       </div>
 
       <div className={styles.body}>
+        {/*
+          Both states are always rendered. The form stays in the document
+          flow (even when invisible) so the panel keeps its height on mobile.
+          The confirmation is absolutely overlaid on top.
+        */}
+        <div className={styles.stateContainer}>
 
-        {/* ── Form state ─────────────────────── */}
-        {!submitted && (
-          <div>
+          {/* ── Form state ─────────────────────── */}
+          <div aria-hidden={submitted} className={submitted ? styles.stateHidden : undefined}>
             <div className={styles.titleGroup}>
               <p className={styles.label}>Newsletter</p>
               <h2 className={styles.heading}>Sign up for Updates</h2>
@@ -96,7 +101,7 @@ export default function Panel({ isOpen, onClose }: PanelProps) {
                     value={firstName}
                     onChange={e => setFirstName(e.target.value)}
                     required
-                    tabIndex={isOpen ? 0 : -1}
+                    tabIndex={isOpen && !submitted ? 0 : -1}
                   />
                 </div>
 
@@ -110,7 +115,7 @@ export default function Panel({ isOpen, onClose }: PanelProps) {
                     value={lastName}
                     onChange={e => setLastName(e.target.value)}
                     required
-                    tabIndex={isOpen ? 0 : -1}
+                    tabIndex={isOpen && !submitted ? 0 : -1}
                   />
                 </div>
 
@@ -127,7 +132,7 @@ export default function Panel({ isOpen, onClose }: PanelProps) {
                     required
                     aria-invalid={showEmailError}
                     aria-describedby={showEmailError ? 'email-error' : undefined}
-                    tabIndex={isOpen ? 0 : -1}
+                    tabIndex={isOpen && !submitted ? 0 : -1}
                   />
                   {showEmailError && (
                     <p id="email-error" className={styles.errorMsg}>
@@ -145,14 +150,14 @@ export default function Panel({ isOpen, onClose }: PanelProps) {
                       checked={terms}
                       onChange={e => setTerms(e.target.checked)}
                       required
-                      tabIndex={isOpen ? 0 : -1}
+                      tabIndex={isOpen && !submitted ? 0 : -1}
                     />
                     <span className={styles.checkboxBox} aria-hidden="true" />
                     <span className={styles.checkboxText}>
                       I agree to the Specs{' '}
-                      <a href="#" tabIndex={isOpen ? 0 : -1}>Terms and Conditions</a>{' '}
+                      <a href="#" tabIndex={isOpen && !submitted ? 0 : -1}>Terms and Conditions</a>{' '}
                       and confirm that I have read and understood the{' '}
-                      <a href="#" tabIndex={isOpen ? 0 : -1}>Privacy Policy</a>.
+                      <a href="#" tabIndex={isOpen && !submitted ? 0 : -1}>Privacy Policy</a>.
                     </span>
                   </label>
                 </div>
@@ -164,17 +169,19 @@ export default function Panel({ isOpen, onClose }: PanelProps) {
                 className={styles.submitBtn}
                 disabled={!isValid}
                 aria-disabled={!isValid}
-                tabIndex={isOpen ? 0 : -1}
+                tabIndex={isOpen && !submitted ? 0 : -1}
               >
                 Sign up
               </button>
             </form>
           </div>
-        )}
 
-        {/* ── Confirmation state ─────────────── */}
-        {submitted && (
-          <div className={styles.confirm} aria-live="polite">
+          {/* ── Confirmation state — overlaid so panel height is unchanged ── */}
+          <div
+            className={`${styles.confirmOverlay}${!submitted ? ` ${styles.stateHidden}` : ''}`}
+            aria-hidden={!submitted}
+            aria-live="polite"
+          >
             <div className={styles.titleGroup}>
               <p className={styles.label}>Newsletter</p>
               <h2 className={styles.heading}>
@@ -183,8 +190,8 @@ export default function Panel({ isOpen, onClose }: PanelProps) {
               </h2>
             </div>
           </div>
-        )}
 
+        </div>
       </div>
     </aside>
   )
