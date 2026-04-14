@@ -105,6 +105,19 @@
   border-color: var(--color-white);
 }
 
+.inputWrapError {
+  border-color: var(--color-error) !important;
+}
+
+.errorMsg {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-error);
+  line-height: 16px;
+  margin-top: var(--space-8);
+  letter-spacing: 0.4px;
+}
+
 .inputWrap input[type="text"],
 .inputWrap input[type="email"] {
   width: 100%;

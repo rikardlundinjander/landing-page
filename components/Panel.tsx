@@ -12,12 +12,15 @@ export default function Panel({ isOpen, onClose }: PanelProps) {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName]   = useState('')
   const [email, setEmail]         = useState('')
+  const [emailTouched, setEmailTouched] = useState(false)
   const [terms, setTerms]         = useState(false)
   const [submitted, setSubmitted] = useState(false)
 
   const closeBtnRef = useRef<HTMLButtonElement>(null)
 
-  const isValid = firstName.trim() !== '' && lastName.trim() !== '' && email.trim() !== '' && terms
+  const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())
+  const showEmailError = emailTouched && email.trim() !== '' && !isValidEmail
+  const isValid = firstName.trim() !== '' && lastName.trim() !== '' && isValidEmail && terms
 
   // Focus close button when panel opens
   useEffect(() => {
@@ -33,6 +36,7 @@ export default function Panel({ isOpen, onClose }: PanelProps) {
         setFirstName('')
         setLastName('')
         setEmail('')
+        setEmailTouched(false)
         setTerms(false)
         setSubmitted(false)
       }, 400)
@@ -110,7 +114,7 @@ export default function Panel({ isOpen, onClose }: PanelProps) {
                   />
                 </div>
 
-                <div className={styles.inputWrap}>
+                <div className={`${styles.inputWrap}${showEmailError ? ` ${styles.inputWrapError}` : ''}`}>
                   <input
                     type="email"
                     id="email"
@@ -119,9 +123,17 @@ export default function Panel({ isOpen, onClose }: PanelProps) {
                     autoComplete="email"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
+                    onBlur={() => setEmailTouched(true)}
                     required
+                    aria-invalid={showEmailError}
+                    aria-describedby={showEmailError ? 'email-error' : undefined}
                     tabIndex={isOpen ? 0 : -1}
                   />
+                  {showEmailError && (
+                    <p id="email-error" className={styles.errorMsg}>
+                      Please enter a valid email address
+                    </p>
+                  )}
                 </div>
 
                 <div className={`${styles.inputWrap} ${styles.checkboxWrap}`}>
