@@ -1,0 +1,248 @@
+/* === SIDE PANEL (desktop) / BOTTOM SHEET (mobile) ========== */
+
+.panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: var(--panel-width);
+  height: 100dvh;
+  background: var(--color-black);
+  transform: translateX(105%);
+  transition: transform var(--duration-panel) var(--ease-panel);
+  z-index: 100;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  -webkit-overflow-scrolling: touch;
+}
+
+.panel.open {
+  transform: translateX(0);
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: var(--space-16);
+  min-height: 64px;
+  flex-shrink: 0;
+}
+
+.closeBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 4px;
+  color: var(--color-white);
+  transition: opacity var(--duration-fast) ease;
+}
+
+.closeBtn:hover {
+  opacity: 0.6;
+}
+
+.closeBtn:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Body */
+.body {
+  padding: 0 var(--space-48);
+  padding-bottom: var(--space-48);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Title group */
+.titleGroup {
+  padding: var(--space-32) 0;
+  text-align: center;
+}
+
+.label {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--color-white);
+  line-height: 16px;
+  margin-bottom: var(--space-8);
+}
+
+.heading {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 32px;
+  color: var(--color-white);
+  letter-spacing: 0;
+}
+
+/* Form fields */
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+  padding-top: var(--space-32);
+}
+
+.inputWrap {
+  border-bottom: 1px solid var(--color-gray-600);
+  padding: var(--space-12) 0;
+  transition: border-color var(--duration-fast) ease;
+}
+
+.inputWrap:hover,
+.inputWrap:focus-within {
+  border-color: var(--color-white);
+}
+
+.inputWrap input[type="text"],
+.inputWrap input[type="email"] {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--color-white);
+  font-family: var(--font-family);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  display: block;
+  caret-color: var(--color-white);
+}
+
+.inputWrap input::placeholder {
+  color: var(--color-gray-600);
+}
+
+/* Checkbox */
+.checkboxWrap {
+  border-bottom: none;
+  padding: var(--space-12) 0;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-12);
+  cursor: pointer;
+}
+
+.checkboxLabel input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.checkboxBox {
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  border: 0.5px solid var(--color-gray-600);
+  margin-top: 2px;
+  transition: background var(--duration-fast) ease, border-color var(--duration-fast) ease;
+}
+
+.checkboxLabel input:checked ~ .checkboxBox {
+  background: var(--color-white);
+  border-color: var(--color-white);
+}
+
+.checkboxLabel input:focus-visible ~ .checkboxBox {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.checkboxText {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-gray-600);
+  line-height: 16px;
+}
+
+.checkboxText a {
+  color: var(--color-gray-600);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.checkboxText a:hover {
+  color: var(--color-white);
+}
+
+/* Submit button */
+.submitBtn {
+  width: 100%;
+  height: 48px;
+  margin-top: var(--space-32);
+  background: var(--color-gray-600);
+  color: var(--color-white);
+  border: 1px solid var(--color-gray-600);
+  font-family: var(--font-family);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  line-height: 16px;
+  cursor: not-allowed;
+  transition:
+    background var(--duration-fast) ease,
+    border-color var(--duration-fast) ease,
+    color var(--duration-fast) ease;
+}
+
+.submitBtn:not(:disabled) {
+  background: var(--color-white);
+  color: var(--color-black);
+  border-color: var(--color-white);
+  cursor: pointer;
+}
+
+.submitBtn:not(:disabled):hover {
+  background: var(--color-gray-100);
+  border-color: var(--color-gray-100);
+}
+
+.submitBtn:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* Confirmation */
+.confirm {
+  /* same layout as form view */
+}
+
+/* === MOBILE — bottom sheet ================================= */
+
+@media (max-width: 767px) {
+  .panel {
+    width: 100%;
+    height: auto;
+    max-height: 92dvh;
+    top: auto;
+    bottom: 0;
+    right: 0;
+    transform: translateY(105%);
+  }
+
+  .panel.open {
+    transform: translateY(0);
+  }
+
+  .body {
+    padding: 0 var(--space-48);
+    padding-bottom: max(var(--space-48), env(safe-area-inset-bottom, 0px));
+  }
+}
