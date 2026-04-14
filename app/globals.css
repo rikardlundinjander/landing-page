@@ -80,8 +80,8 @@
   --panel-width: 480px;
 
   /* Motion */
-  --ease-panel:     cubic-bezier(0.4, 0, 0.2, 1);
-  --duration-panel: 0.4s;
+  --ease-panel:     cubic-bezier(0.8, 0, 0.2, 1);
+  --duration-panel: 750ms;
   --duration-fast:  0.2s;
 
   /* Borders */
